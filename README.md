@@ -1,5 +1,10 @@
 # <a href="http://algassert.com/quirk">Quirk <img src="doc/favicon.ico" alt="Icon" title="Icon" /></a>
 
+This fork adds a drawable **M image** input and `m(row,column)` in formula gates.
+**[Open this fork's demo](https://paxbun.github.io/Quirk/)** in a WebGL-capable browser, including Safari on iPad.
+The circuit starts empty; choose **Menu → Quantum Neural Network** for the trained lowercase a–d classifier or **Image Rotations** for the M/RY/RZ demonstration with intermediate Bloch spheres.
+See [the fork documentation](README-MNIST.md) for the model, drawing controls, and build instructions. The original Quirk documentation follows.
+
 [![Build Status](https://travis-ci.org/Strilanc/Quirk.svg?branch=master)](https://travis-ci.org/Strilanc/Quirk)
 
 Quirk is a toy quantum circuit simulator, intended to help people in learning about quantum computing.

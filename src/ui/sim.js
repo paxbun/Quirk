@@ -17,6 +17,7 @@
 import {CircuitDefinition} from "../circuit/CircuitDefinition.js"
 import {Config} from "../Config.js"
 import {CircuitStats} from "../circuit/CircuitStats.js"
+import {imageInput} from "../image/ImageInput.js";
 
 const getCircuitCycleTime = (() => {
     /**
@@ -42,13 +43,14 @@ const getCircuitCycleTime = (() => {
 
 /** @type {undefined|!CircuitStats} */
 let _cachedStats = undefined;
+let _cachedImageRevision = -1;
 
 /**
  * @param {!CircuitDefinition} circuit
  * @returns {!CircuitStats}
  */
 function simulate(circuit) {
-    if (_cachedStats !== undefined && _cachedStats.circuitDefinition.isEqualTo(circuit)) {
+    if (_cachedStats !== undefined && _cachedImageRevision === imageInput.revision && _cachedStats.circuitDefinition.isEqualTo(circuit)) {
         return _cachedStats.withTime(getCircuitCycleTime());
     }
 
@@ -56,6 +58,7 @@ function simulate(circuit) {
     let result = CircuitStats.fromCircuitAtTime(circuit, getCircuitCycleTime());
     if (circuit.stableDuration() === Infinity) {
         _cachedStats = result;
+        _cachedImageRevision = imageInput.revision;
     }
     return result;
 }

@@ -1,5 +1,6 @@
 .idea/*
 node_modules/*
+.pnpm-store/
 out/*
 .eslintrc
 *.git_ignore.js

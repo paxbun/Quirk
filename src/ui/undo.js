@@ -19,6 +19,8 @@
  * @param {!Observable.<boolean>} obsIsAnyOverlayShowing
  */
 function initUndoRedo(revision, obsIsAnyOverlayShowing) {
+    let anyOverlayShowing=false;
+    obsIsAnyOverlayShowing.subscribe(value => { anyOverlayShowing=value; });
     const overlay_divs = [
         document.getElementById('gate-forge-div'),
         document.getElementById('export-div')
@@ -35,6 +37,7 @@ function initUndoRedo(revision, obsIsAnyOverlayShowing) {
     redoButton.addEventListener('click', () => revision.redo());
 
     document.addEventListener("keydown", e => {
+        if (anyOverlayShowing) { return; }
         // Don't capture keystrokes while menus are showing.
         for (let div of overlay_divs) {
             if (div.style.display !== 'NONE' && div.style.display !== 'none') {

@@ -183,6 +183,7 @@ const IDS_THAT_SHOULD_BE_KNOWN = [
     "xpar", "ypar", "zpar",
     "|0⟩⟨0|", "|1⟩⟨1|", "|+⟩⟨+|", "|-⟩⟨-|", "|X⟩⟨X|", "|/⟩⟨/|",
     "Measure",
+    "inputM",
     "XDetector", "YDetector", "ZDetector",
     "XDetectControlReset", "YDetectControlReset", "ZDetectControlReset",
     "Swap",

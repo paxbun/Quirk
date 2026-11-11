@@ -191,6 +191,7 @@ suite.test("knownDoNothingGateFamilies", () => {
         'inputA1',
         'inputB1',
         'inputR1',
+        'inputM',
         'revinputA1',
         'revinputB1',
         'setA',

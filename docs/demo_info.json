@@ -1,0 +1,30 @@
+{
+  "classes": [
+    "a",
+    "b",
+    "c",
+    "d"
+  ],
+  "lowercase_only": true,
+  "dataset": "EMNIST ByClass",
+  "qubits": 8,
+  "architecture": "rowcol8_quantum",
+  "readout": "joint-probabilities",
+  "readout_wires": [
+    7,
+    6
+  ],
+  "quantum_parameters": 84,
+  "classical_parameters": 0,
+  "image_size": 4,
+  "train_count": 2000,
+  "validation_count": 800,
+  "validation_accuracy": 0.81625,
+  "finite_shot_test_accuracy": 0.7955555555555556,
+  "ideal_test_accuracy": 0.8011111111111111,
+  "test_count": 900,
+  "training_gradient": "parameter-shift",
+  "training_shots": 512,
+  "checkpoint_sha256": "6655926b2af0bd5b26a5f63a53089ccc2d477325af8779fcfa947763fe6da1cc",
+  "html_sha256": "2ebcd8856903b8f5071f48495b1d924a6fb6858851b2a841482241cf285fc802"
+}

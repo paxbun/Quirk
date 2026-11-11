@@ -24,6 +24,7 @@ import {Util} from "../base/Util.js";
 import {parseFormula} from "../math/FormulaParser.js";
 import {XExp, YExp, ZExp} from "./ExponentiatingGates.js";
 import {Config} from "../Config.js";
+import {replaceImageCalls} from "../image/ImageInput.js";
 
 let ParametrizedRotationGates = {};
 
@@ -213,8 +214,13 @@ function parseTimeFormula(formula, time, warn) {
         tokenMap.set('t', time);
     }
     try {
-        let angle = Complex.from(parseFormula(formula, tokenMap));
-        if (Math.abs(angle.imag) > 0.0001) {
+        let expanded = replaceImageCalls(String(formula), expression => {
+            let index = Complex.from(parseFormula(expression, tokenMap));
+            if (index.imag !== 0 || !Number.isFinite(index.real)) { throw new Error('M index must be real and finite.'); }
+            return index.real;
+        });
+        let angle = Complex.from(parseFormula(expanded, tokenMap));
+        if (!Number.isFinite(angle.real) || !Number.isFinite(angle.imag) || Math.abs(angle.imag) > 0.0001) {
             throw new Error(`Non-real angle: ${formula} = ${angle}`);
         }
         return angle.real;
@@ -281,7 +287,8 @@ function angleClicker(quantityName) {
             "Invalid results will default to 0.\n" +
             "\n" +
             "Available constants: e, pi\n" +
-            "Available functions: cos, sin, acos, asin, tan, atan, ln, sqrt, exp\n" +
+            "Available functions: cos, sin, acos, asin, tan, atan, ln, sqrt, exp, m(row,column)\n" +
+            "M is the drawn image: zero-based row/column; pixels range from 0 (black) to 1 (white).\n" +
             "Available operators: + * / - ^",
             '' + oldGate.param);
         if (txt === null || txt.trim() === '') {
@@ -393,4 +400,4 @@ ParametrizedRotationGates.all =[
     ParametrizedRotationGates.FormulaicRotationRz,
 ];
 
-export {ParametrizedRotationGates}
+export {ParametrizedRotationGates, parseTimeFormula}

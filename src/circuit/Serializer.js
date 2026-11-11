@@ -30,6 +30,7 @@ import {notifyAboutRecoveryFromUnexpectedError} from "../fallback.js"
 import {MysteryGateSymbol, MysteryGateMakerWithMatrix} from "../gates/Joke_MysteryGate.js"
 import {seq} from "../base/Seq.js"
 import {setGateBuilderEffectToCircuit} from "./CircuitComputeUtil.js"
+import {imageInput} from "../image/ImageInput.js";
 
 /** @type {!function(!GateDrawParams)} */
 let matrixDrawer = undefined;
@@ -377,6 +378,7 @@ let toJson_CircuitDefinition = (v, context) => {
             map(e => toJson_GateColumn(e, context || v.customGateSet)).
             map(c => seq(c).skipTailWhile(e => e === 1).toArray())
     };
+    if (context === undefined && imageInput.active) { result.m = imageInput.snapshot(); }
     if (context === undefined && v.customGateSet.gates.length > 0) {
         result.gates = toJson_CustomGateSet(v.customGateSet);
     }
@@ -397,11 +399,13 @@ let toJson_CircuitDefinition = (v, context) => {
 let _cachedCircuit = undefined;
 let _cachedCircuit_Arg = undefined;
 function fromJsonText_CircuitDefinition(jsonText) {
+    let json = JSON.parse(jsonText);
+    imageInput.restore(json.m);
     if (_cachedCircuit_Arg === jsonText) {
         return _cachedCircuit;
     }
     _cachedCircuit_Arg = jsonText;
-    _cachedCircuit = fromJson_CircuitDefinition(JSON.parse(jsonText), undefined);
+    _cachedCircuit = fromJson_CircuitDefinition(json, undefined);
     return _cachedCircuit;
 }
 

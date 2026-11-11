@@ -47,6 +47,9 @@ import {GatePainting} from "./draw/GatePainting.js"
 import {GATE_CIRCUIT_DRAWER} from "./ui/DisplayedCircuit.js"
 import {GateColumn} from "./circuit/GateColumn.js";
 import {Point} from "./math/Point.js";
+import {imageInput} from './image/ImageInput.js';
+import {obsImageEditorShowing} from './image/ImageInputEditor.js';
+import {initImageInput} from './ui/imageInput.js';
 initSerializer(
     GatePainting.LABEL_DRAWER,
     GatePainting.MATRIX_DRAWER,
@@ -294,6 +297,12 @@ canvasDiv.addEventListener('mouseleave', () => {
 });
 
 let obsIsAnyOverlayShowing = new ObservableSource();
+initImageInput(() => {
+    let json = JSON.parse(revision.peekActiveCommit());
+    json.m = imageInput.snapshot();
+    revision.commit(JSON.stringify(json));
+});
+imageInput.subscribe(() => redrawThrottle.trigger());
 initUrlCircuitSync(revision);
 initExports(revision, mostRecentStats, obsIsAnyOverlayShowing.observable());
 initForge(revision, obsIsAnyOverlayShowing.observable());
@@ -304,6 +313,7 @@ initTitleSync(revision);
 obsForgeIsShowing.
     zipLatest(obsExportsIsShowing, (e1, e2) => e1 || e2).
     zipLatest(obsMenuIsShowing, (e1, e2) => e1 || e2).
+    zipLatest(obsImageEditorShowing, (e1, e2) => e1 || e2).
     whenDifferent().
     subscribe(e => {
         obsIsAnyOverlayShowing.send(e);

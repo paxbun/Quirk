@@ -35,6 +35,7 @@ import {
 } from "./Joke_ImaginaryGate.js"
 import {IncrementGates} from "./IncrementGates.js"
 import {InputGates} from "./InputGates.js"
+import {ImageInputGate} from "./ImageInputGate.js";
 import {InterleaveBitsGates} from "./InterleaveBitsGates.js"
 import {MeasurementGate} from "./MeasurementGate.js"
 import {ModularIncrementGates} from "./ModularIncrementGates.js"
@@ -101,6 +102,7 @@ Gates.SqrtImaginaryGate = SqrtImaginaryGate;
 Gates.AntiSqrtImaginaryGate = AntiSqrtImaginaryGate;
 Gates.IncrementGates = IncrementGates;
 Gates.InputGates = InputGates;
+Gates.ImageInput = ImageInputGate;
 Gates.InterleaveBitsGates = InterleaveBitsGates;
 Gates.ModularIncrementGates = ModularIncrementGates;
 Gates.ModularAdditionGates = ModularAdditionGates;
@@ -127,6 +129,7 @@ Gates.ZeroGate = ZeroGate;
 
 /** @type {!Array.<!Gate>} */
 Gates.KnownToSerializer = [
+    ImageInputGate,
     ...Controls.all,
     ...InputGates.all,
     MeasurementGate,
@@ -310,7 +313,7 @@ Gates.BottomToolboxGroups = [
             InputGates.InputAFamily.ofSize(2), InputGates.SetA,
             InputGates.InputBFamily.ofSize(2), InputGates.SetB,
             InputGates.InputRFamily.ofSize(2), InputGates.SetR,
-            undefined, undefined,
+            undefined, ImageInputGate,
         ]
     },
     {

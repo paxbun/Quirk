@@ -15,6 +15,8 @@
  */
 
 import {ObservableValue} from "../base/Obs.js"
+import {modelCircuit} from "../mnist/Model.js";
+import {imageRotationCircuit} from "../mnist/RotationExample.js";
 
 const menuIsVisible = new ObservableValue(true);
 const obsMenuIsShowing = menuIsVisible.observable().whenDifferent();
@@ -310,6 +312,10 @@ function initMenu(revision, obsIsAnyOverlayShowing) {
     const qftAnchor = /** @type {!HTMLAnchorElement} */ document.getElementById('example-qft');
     const shorAnchor = /** @type {!HTMLAnchorElement} */ document.getElementById('example-anchor-shor');
     const distillAnchor = /** @type {!HTMLAnchorElement} */ document.getElementById('example-anchor-distill');
+    const quantumNetworkAnchor = /** @type {!HTMLAnchorElement} */ document.getElementById('example-quantum-neural-network');
+    const imageRotationsAnchor = /** @type {!HTMLAnchorElement} */ document.getElementById('example-image-rotations');
+    const quantumNetworkLink = modelCircuit();
+    quantumNetworkLink.m = {size: 4, pixels: Array(16).fill(0)};
 
     for (let [a, t] of [[groverAnchor, groverLink],
                         [shorAnchor, shorLink],
@@ -320,7 +326,9 @@ function initMenu(revision, obsIsAnyOverlayShowing) {
                         [symmetryBreakAnchor, symmetryBreakingLink],
                         [chshTestAnchor, chshTestLink],
                         [qftAnchor, qftLink],
-                        [distillAnchor, distillLink]]) {
+                        [distillAnchor, distillLink],
+                        [quantumNetworkAnchor, quantumNetworkLink],
+                        [imageRotationsAnchor, imageRotationCircuit()]]) {
         let text = JSON.stringify(t);
         a.href = "#circuit=" + text;
         a.onclick = ev => {

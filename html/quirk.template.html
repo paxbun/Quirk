@@ -2,6 +2,7 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="keywords" content="quantum,circuit,simulator,quirk">
         <meta name="description" content="Quirk is an open-source drag-and-drop quantum circuit simulator for exploring and understanding small quantum circuits.">
         <title>Quirk: Quantum Circuit Simulator</title>
@@ -38,6 +39,47 @@
                 <span style="color:#BBB">Version 2.3</span>
             </div>
 
+            <style>
+                #image-input-editor { position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.7); box-sizing:border-box; padding:16px; padding-top:max(16px,env(safe-area-inset-top)); padding-bottom:max(16px,env(safe-area-inset-bottom)); padding-left:max(16px,env(safe-area-inset-left)); padding-right:max(16px,env(safe-area-inset-right)); overscroll-behavior:contain; }
+                #image-input-dialog { width:min(1200px,100%); max-height:100%; background:white; border:1px solid black; overflow:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
+                .m-editor-header { position:sticky; top:0; z-index:2; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 20px; padding:12px 20px; background:white; }
+                .m-settings { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+                #image-input-editor button, #image-input-editor select { min-height:44px; }
+                .m-editor-body { display:flex; flex-direction:column; gap:12px; padding:0 16px 12px; }
+                .m-drawing { width:min(calc(100vw - 72px),calc(100vh - 220px),1000px); width:min(calc(100vw - 72px),calc(100dvh - 220px),1000px); aspect-ratio:1; margin:auto; }
+                #image-input-canvas { display:block; width:100%; height:100%; touch-action:none; cursor:crosshair; background:black; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
+                .m-controls { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 16px; }
+                .m-controls label { display:flex; gap:6px; align-items:center; min-height:44px; }
+                #image-input-brush { min-height:44px; width:140px; }
+                .m-preview-row { display:flex; align-items:center; gap:10px; }
+                #image-input-preview { width:44px; height:44px; image-rendering:pixelated; background:black; border:1px solid black; }
+                @media (max-width:540px) {
+                    .m-editor-header { padding:10px 12px; }
+                    .m-editor-body { padding:0 12px 10px; }
+                    #image-input-brush { width:100px; }
+                }
+            </style>
+            <div id="image-input-editor" style="display:none" aria-hidden="true">
+                <section id="image-input-dialog" role="dialog" aria-modal="true" aria-labelledby="image-input-title" tabindex="-1">
+                    <header class="m-editor-header">
+                        <strong id="image-input-title">M</strong>
+                        <div class="m-settings">
+                            <label>Downsample <select id="image-input-size" aria-label="M image dimensions"><option value="3">3×3</option><option value="4" selected>4×4</option><option value="7">7×7</option><option value="28">28×28</option></select></label>
+                            <button id="image-input-close" aria-label="Close image editor">Close</button>
+                        </div>
+                    </header>
+                    <div class="m-editor-body">
+                        <div class="m-drawing"><canvas id="image-input-canvas" width="280" height="280" aria-label="M image canvas"></canvas></div>
+                        <div class="m-controls">
+                            <label>Brush <input id="image-input-brush" type="range" min="1" max="6" step="0.1" value="4" aria-label="Brush width at 28×28 scale"><span id="image-input-brush-value">4.0</span></label>
+                            <label><input id="image-input-erase" type="checkbox">Erase</label>
+                            <button id="image-input-clear">Clear</button>
+                            <label>Example <select id="image-input-sample" aria-label="Example"><option value="">—</option></select></label>
+                            <div class="m-preview-row"><canvas id="image-input-preview" width="4" height="4" aria-label="Downsampled M preview"></canvas><span id="image-input-preview-label">4×4 M input</span></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
             <!-- Circuit drawing area -->
             <div id="canvasDiv" style="width: 100%; touch-action: manipulation; tab-index: 0; position: relative;">
                 <canvas id="drawCanvas"></canvas>
